@@ -142,8 +142,13 @@ class MessageFormatterContext {
 
     /**
      * Phân tích và định dạng tin nhắn dựa vào msgType
-     * @param {Object} msgData - Đối tượng data của tin nhắn
-     * @returns {{type: string, text: string, url: string|null, title: string|null}}
+     * @param {object} msgData - Đối tượng data của tin nhắn
+     * @returns {{
+     *      type: string, 
+     *      text: string, 
+     *      url: string|null, 
+     *      title: string|null
+     * }}
      */
     format(msgData) {
         const strategy = this.strategies.get(msgData.msgType) || this.defaultStrategy;

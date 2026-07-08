@@ -1,28 +1,81 @@
 // @ts-check
+const BASE_URL = "http://localhost:3000/api/"
+
+
+
+/**
+ * 
+ * @param {string} path 
+ * @param {any} options 
+ * @returns {Promise<Response>}
+ */
+async function api(path, options = {}) {
+    const response = await fetch(new URL(path, BASE_URL), {
+        headers: {
+            "Content-Type": "application/json",
+            ...options.headers,
+        },
+        ...options,
+    });
+
+    if (!response.ok) {
+        throw new Error(`HTTP ${response.status}`);
+    }
+
+    return response;
+}
 
 /**
  * @param {{type: string, text: string, url: string|null, title: string|null}} formatted
+ * @param {string} msg_id
  * @returns {Promise<void>}
  */
-export const send_msg = async (formatted) => {
+export const send_msg = async (msg_id, formatted) => {
     try {
-        const res = await fetch('http://localhost:3000/api/messages', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify(formatted),
-        });
-
-        if (!res.ok) {
-            console.error('[API ERROR] status', res.status);
-            return;
-        }
+        const res = await api("/messsages",{
+            method: "POST",
+            body: JSON.stringify({
+                msg_id: msg_id,
+                ...formatted
+            })
+        })
 
         const json = await res.json();
-        // mong đợi:
-        // { success: true, data: { type, text, url, title, geminiExtraction: extractedInfo } }
+        
         const gemini = json?.data?.geminiExtraction;
         console.log('[GEMINI EXTRACTION]', gemini);
     } catch (err) {
         console.error('[API FETCH ERROR]', err);
+    }
+}
+
+/**
+ * 
+ * @param {string} msg_id 
+ * @param {string} rIcon 
+ */
+export const reaction_msg = async(msg_id, rIcon) => {
+    try {
+        const res = await api("/messages/reactions", {
+            method: "POST",
+            body: JSON.stringify({
+                msg_id: msg_id,
+                r_icon: rIcon
+            })
+        })
+    }
+    catch (err) {
+        console.error("[API FETCH ERRR]: "+ err);
+    }
+}
+
+export const ping = async() => {
+    try {
+        const res = await api("/messages/reactions", {method: "GET",})
+        const pong = res.text;
+        console.log(pong);
+    }
+    catch (err) {
+        console.error("[API FETCH ERRR]: "+ err);
     }
 }

@@ -7,8 +7,6 @@ import { send_msg } from "./api.js";
 /**
  * Đăng ký các mục tiêu (người dùng hoặc nhóm) mà bot cần theo dõi.
  * Gọi hàm watch() cho từng mục tiêu cụ thể hoặc "*" để nghe tất cả.
- * 
- * @returns {void}
  */
 export function registerTargets() {
 
@@ -29,7 +27,7 @@ export function registerTargets() {
     watch("*", {
         onMessage: async (msg) => {
             const formatted = messageFormatter.format(msg.data);
-            
+            const msgId = msg.data.msgId;
             let display = formatted.text;
             if (formatted.title) display += ` - ${formatted.title}`;
             if (formatted.url) display += ` (URL: ${formatted.url})`;
@@ -38,7 +36,7 @@ export function registerTargets() {
             
             if (formatted.type == "photo" || formatted.type == "text")  {
                 // gửi về server
-                await send_msg(formatted);
+                await send_msg(msgId, formatted);
             }
         },
         onDelete: (undo) => {
