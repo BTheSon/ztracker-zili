@@ -1,4 +1,8 @@
+// @ts-check
+
 import { watch } from "./watcher.js";
+import messageFormatter from "./messageFormatter.js";
+import { send_msg } from "./api.js";
 
 /**
  * Đăng ký các mục tiêu (người dùng hoặc nhóm) mà bot cần theo dõi.
@@ -7,10 +11,12 @@ import { watch } from "./watcher.js";
  * @returns {void}
  */
 export function registerTargets() {
-    watch("Nhóm Đồ Án IT", {
+
+    watch("[BoBo] SHIP BOBO", {
         onMessage: (msg) => {
-            const text = typeof msg.data.content === "string" ? msg.data.content : "(media/attachment)";
-            console.log(`[MSG] ${msg.data.dName}: ${text}`);
+            const data = messageFormatter.format(msg.data);
+            
+            console.log(`[MSG] ${msg.data.dName}: ${data}`);
         },
         onDelete: (undo) => {
             console.log(`[UNDO] Tin nhắn ${undo.data.msgId} vừa bị thu hồi`);
@@ -20,14 +26,20 @@ export function registerTargets() {
         },
     });
 
-    // Thêm bao nhiêu tên tuỳ ý, mỗi tên 1 khối watch() riêng
-    // watch("Nguyễn Văn A", { onMessage: (msg) => {...} });
-
-    // Nghe TẤT CẢ thông báo/tin nhắn (mọi nhóm và người dùng)
     watch("*", {
-        onMessage: (msg) => {
-            const text = typeof msg.data.content === "string" ? msg.data.content : "(media/attachment)";
-            console.log(`[TẤT CẢ MSG] ${msg.data.dName || msg.data.uidFrom}: ${text}`);
+        onMessage: async (msg) => {
+            const formatted = messageFormatter.format(msg.data);
+            
+            let display = formatted.text;
+            if (formatted.title) display += ` - ${formatted.title}`;
+            if (formatted.url) display += ` (URL: ${formatted.url})`;
+
+            console.log(`[TẤT CẢ MSG] ${msg.data.dName || msg.data.uidFrom}: ${display}`);
+            
+            if (formatted.type == "photo" || formatted.type == "text")  {
+                // gửi về server
+                await send_msg(formatted);
+            }
         },
         onDelete: (undo) => {
             console.log(`[TẤT CẢ UNDO] Tin nhắn ${undo.data.msgId} vừa bị thu hồi`);

@@ -1,7 +1,8 @@
 import { Zalo } from "zca-js";
 import fs from "fs";
 
-const CREDENTIALS_PATH = "./credentials.json";
+const CREDENTIALS_PATH = "./local-data/credentials.json";
+const QR_CODE_GEN_PATH = "./local-data/qr.png";
 
 /**
  * @typedef {import("zca-js").API} API
@@ -30,7 +31,7 @@ export async function getApi() {
     }
 
     console.log("Chưa có session, quét QR để đăng nhập...");
-    const api = await zalo.loginQR({ qrPath: "./qr.png" });
+    const api = await zalo.loginQR({ qrPath:  QR_CODE_GEN_PATH});
 
     const ctx = api.getContext();
     fs.writeFileSync(
