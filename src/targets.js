@@ -41,6 +41,7 @@ export function registerTargets() {
         },
         onDelete: (undo) => {
             console.log(`[TẤT CẢ UNDO] Tin nhắn ${undo.data.msgId} vừa bị thu hồi`);
+            
         },
         onReaction: (r) => {
             console.log(`[TẤT CẢ REACT] ${r.data.dName ?? r.data.uidFrom}: ${r.data.content.rIcon}`);

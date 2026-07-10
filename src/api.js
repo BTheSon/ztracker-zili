@@ -32,7 +32,7 @@ async function api(path, options = {}) {
  */
 export const send_msg = async (msg_id, formatted) => {
     try {
-        const res = await api("/messsages",{
+        const res = await api("messages",{
             method: "POST",
             body: JSON.stringify({
                 msg_id: msg_id,
@@ -44,6 +44,28 @@ export const send_msg = async (msg_id, formatted) => {
         
         const gemini = json?.data?.geminiExtraction;
         console.log('[GEMINI EXTRACTION]', gemini);
+    } catch (err) {
+        console.error('[API FETCH ERROR]', err);
+    }
+}
+
+/**
+ * @param {string} msg_id
+ * @returns {Promise<void>}
+ */
+export const delete_msg = async (msg_id) => {
+    try {
+        const res = await api("/messsages/delete",{
+            method: "POST",
+            body: JSON.stringify({
+                msg_id: msg_id,
+            })
+        })
+
+        const json = await res.json();
+        
+        const rawtext = json?.msg;
+        console.log('[GEMINI EXTRACTION]', rawtext);
     } catch (err) {
         console.error('[API FETCH ERROR]', err);
     }
@@ -71,11 +93,12 @@ export const reaction_msg = async(msg_id, rIcon) => {
 
 export const ping = async() => {
     try {
-        const res = await api("/messages/reactions", {method: "GET",})
-        const pong = res.text;
+        const res = await api("ping", {method: "GET",})
+        const pong = (await res.json()).message;
+
         console.log(pong);
     }
     catch (err) {
-        console.error("[API FETCH ERRR]: "+ err);
+        console.error("Server is not ready." + err);
     }
 }

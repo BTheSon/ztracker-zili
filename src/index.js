@@ -1,6 +1,7 @@
 import { getApi } from "./session.js";
 import { initDirectory, attach } from "./watcher.js";
 import { registerTargets } from "./targets.js";
+import { ping } from "./api.js";
 
 (async () => {
     registerTargets();          // đăng ký tên cần nghe + callback
@@ -11,5 +12,7 @@ import { registerTargets } from "./targets.js";
     attach(api);                // gắn listener gốc
 
     api.listener.start();
+    await ping();               // đánh thức server
+
     console.log("Đang lắng nghe...");
 })();
