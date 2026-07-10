@@ -1,8 +1,8 @@
 import { Zalo } from "zca-js";
 import fs from "fs";
 
-const CREDENTIALS_PATH = "./local-data/credentials.json";
-const QR_CODE_GEN_PATH = "./local-data/qr.png";
+const CREDENTIALS_PATH = "./credentials.json";
+const QR_CODE_GEN_PATH = "/data/data/com.termux/files/home/storage/downloads/qr.png";
 
 /**
  * @typedef {import("zca-js").API} API
