@@ -2,7 +2,7 @@ import { Zalo } from "zca-js";
 import fs from "fs";
 
 const CREDENTIALS_PATH = "./credentials.json";
-const QR_CODE_GEN_PATH = "/storage/emulated/0/Download/qr.png";
+const QR_CODE_GEN_PATH = "./qr.png";
 
 /**
  * @typedef {import("zca-js").API} API
