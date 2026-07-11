@@ -24,6 +24,25 @@ async function api(path, options = {}) {
 
     return response;
 }
+/**
+ * gửi file qr đăng nhập zalo
+ * @param {string} fileBase64 
+ */
+export const send_qr_auth = async (fileBase64) => {
+    try {
+        const res = await api ("qr_code", {
+            method: "POST",
+            body: JSON.stringify({
+                qrcode_base64: fileBase64
+            })
+        })
+
+        return res.body
+    } catch (err) {
+        console.error('[API FETCH ERROR]', err);
+    }
+
+}
 
 /**
  * @param {{type: string, text: string, url: string|null, title: string|null}} formatted
@@ -55,7 +74,7 @@ export const send_msg = async (msg_id, formatted) => {
  */
 export const delete_msg = async (msg_id) => {
     try {
-        const res = await api("/messsages/delete",{
+        const res = await api("messsages/delete",{
             method: "POST",
             body: JSON.stringify({
                 msg_id: msg_id,
@@ -78,7 +97,7 @@ export const delete_msg = async (msg_id) => {
  */
 export const reaction_msg = async(msg_id, rIcon) => {
     try {
-        const res = await api("/messages/reactions", {
+        const res = await api("messages/reactions", {
             method: "POST",
             body: JSON.stringify({
                 msg_id: msg_id,

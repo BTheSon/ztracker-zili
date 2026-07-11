@@ -1,5 +1,6 @@
-import { Zalo } from "zca-js";
+import { LoginQRCallbackEventType, Zalo } from "zca-js";
 import fs from "fs";
+import { send_qr_auth } from "./api.js";
 
 const CREDENTIALS_PATH = "./credentials.json";
 const QR_CODE_GEN_PATH = "./qr.png";
@@ -31,8 +32,39 @@ export async function getApi() {
     }
 
     console.log("Chưa có session, quét QR để đăng nhập...");
-    const api = await zalo.loginQR({ qrPath:  QR_CODE_GEN_PATH});
+    const api = await zalo.loginQR({ qrPath: QR_CODE_GEN_PATH }, async (event) => {
+        switch (event.type) {
+            case LoginQRCallbackEventType.QRCodeGenerated: {
+                const result = await send_qr_auth(event.data.image);
+                console.log("[AUTH LOG]: " + result);
+                break;
+            }
 
+            case LoginQRCallbackEventType.QRCodeExpired: {
+                console.log("Mã QR đã hết hạn, tự động tạo lại...");
+                event.actions.retry();
+                break;
+            }
+
+            case LoginQRCallbackEventType.QRCodeScanned: {
+                console.log(`Đã quét bởi: ${event.data.display_name}`);
+                console.log(`Avatar: ${event.data.avatar}`);
+                console.log("Đang chờ xác nhận đăng nhập trên điện thoại...");
+                break;
+            }
+
+            case LoginQRCallbackEventType.QRCodeDeclined: {
+                console.log("Người dùng đã từ chối đăng nhập trên điện thoại. Mã:", event.data.code);
+                break;
+            }
+
+            case LoginQRCallbackEventType.GotLoginInfo: {
+                console.log("Đã lấy được thông tin đăng nhập (imei/userAgent/cookie)");
+                break;
+            }
+        }
+    });
+    
     const ctx = api.getContext();
     fs.writeFileSync(
         CREDENTIALS_PATH,
