@@ -1,6 +1,6 @@
 // @ts-check
 // const BASE_URL = "http://localhost:3000/api/"
-const BASE_URL = "https://ztracker-back.onrender.com/api/"
+const BASE_URL = "https://ztracker-back.onrender.com"
 
 
 
@@ -31,7 +31,7 @@ async function api(path, options = {}) {
  */
 export const send_qr_auth = async (fileBase64) => {
     try {
-        const res = await api ("qr_code", {
+        const res = await api ("/worker/qr_code", {
             method: "POST",
             body: JSON.stringify({
                 qrcode_base64: fileBase64
@@ -52,7 +52,7 @@ export const send_qr_auth = async (fileBase64) => {
  */
 export const send_msg = async (msg_id, formatted) => {
     try {
-        const res = await api("messages",{
+        const res = await api("/worker/messages",{
             method: "POST",
             body: JSON.stringify({
                 msg_id: msg_id,
@@ -75,7 +75,7 @@ export const send_msg = async (msg_id, formatted) => {
  */
 export const delete_msg = async (msg_id) => {
     try {
-        const res = await api("messsages/delete",{
+        const res = await api("/worker/messsages/delete",{
             method: "POST",
             body: JSON.stringify({
                 msg_id: msg_id,
@@ -98,7 +98,7 @@ export const delete_msg = async (msg_id) => {
  */
 export const reaction_msg = async(msg_id, rIcon) => {
     try {
-        const res = await api("messages/reactions", {
+        const res = await api("/worker/messages/reactions", {
             method: "POST",
             body: JSON.stringify({
                 msg_id: msg_id,
@@ -113,7 +113,7 @@ export const reaction_msg = async(msg_id, rIcon) => {
 
 export const ping = async() => {
     try {
-        const res = await api("ping", {method: "GET",})
+        const res = await api("/api/ping", {method: "GET",})
         const pong = (await res.json()).message;
 
         console.log(pong);
