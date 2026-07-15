@@ -31,7 +31,7 @@ async function api(path, options = {}) {
  */
 export const send_qr_auth = async (fileBase64) => {
     try {
-        const res = await api ("/worker/qr_code", {
+        const res = await api ("/api/qr_code", {
             method: "POST",
             body: JSON.stringify({
                 qrcode_base64: fileBase64

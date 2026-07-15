@@ -2,8 +2,11 @@ import { getApi } from "./session.js";
 import { initDirectory, attach } from "./watcher.js";
 import { registerTargets } from "./targets.js";
 import { ping } from "./api.js";
+import { initSocket } from "./socket.js";
 
 (async () => {
+    initSocket();               // khởi tạo socket connection
+
     registerTargets();          // đăng ký tên cần nghe + callback
 
     const api = await getApi(); // login (QR lần đầu / cookie các lần sau)
@@ -15,4 +18,4 @@ import { ping } from "./api.js";
     await ping();               // đánh thức server
 
     console.log("Đang lắng nghe...");
-})();
+})();
