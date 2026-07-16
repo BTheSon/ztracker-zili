@@ -18,7 +18,7 @@ const QR_CODE_GEN_PATH = "./qr.png";
  * @throws {Error} Ném lỗi nếu quét mã QR thất bại hoặc hệ thống không thể khởi tạo Zalo.
  */
 export async function getApi() {
-    const zalo = new Zalo({ selfListen: false, checkUpdate: true, logging: true });
+    const zalo = new Zalo({ selfListen: true, checkUpdate: true, logging: true });
 
     if (fs.existsSync(CREDENTIALS_PATH)) {
         console.log("Đã có session, đăng nhập lại bằng cookie...");
