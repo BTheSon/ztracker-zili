@@ -1,13 +1,14 @@
 //@ts-check
-import { send_msg } from "./api.js";
+import { send_msg } from "./api/index.js";
 import messageFormatter from "./messageFormatter.js";
 import { genRandomPicUrl } from "./randomPic.js";
+import { buildDisplayText } from "./utils/display.js";
 
 // Hàm sinh cấu trúc dữ liệu mô phỏng kết quả sau khi format
 function generateMockFormattedData() {
     const isPhoto = true;
-    
-    // Lấy text được sinh ngẫu nhiên từ bộ generator của bạn
+
+    // Lấy text được sinh ngẫu nhiên từ bộ generator
     // (Bóc tách chuỗi URL để lấy phần text gốc)
     const rawUrl = genRandomPicUrl();
     const cleanText = decodeURIComponent(rawUrl.split('?text=')[1] || "Tin nhắn trống");
@@ -26,20 +27,15 @@ function generateMockFormattedData() {
 
 async function SendOrderTest() {
     const { msgId, sender, formatted } = generateMockFormattedData();
-    
-    // Log thông tin ra console giống log cũ của bạn
-    let display = formatted.text;
-    if (formatted.title) display += ` - ${formatted.title}`;
-    if (formatted.url) display += ` (URL: ${formatted.url})`;
+    const display = buildDisplayText(formatted);
     console.log(`[TẤT CẢ MSG] ${sender}: ${display}`);
 
-    // Gửi thẳng data vào server nếu thỏa điều kiện
     if (formatted.type === "photo" || formatted.type === "text") {
-        try {
-            await send_msg(msgId, formatted);
+        const result = await send_msg(msgId, formatted);
+        if (result.success) {
             console.log(`✔️ Đã gửi thành công: ${msgId}`);
-        } catch (err) {
-            console.error(`❌ Lỗi gửi ${msgId}:`, err);
+        } else {
+            console.error(`❌ Gửi thất bại (đã vào queue): ${msgId} — ${result.error}`);
         }
     }
 }

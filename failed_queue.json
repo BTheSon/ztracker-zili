@@ -1,0 +1,26 @@
+[
+  {
+    "path": "/worker/messages",
+    "body": {
+      "msg_id": "msg_1784521370319",
+      "type": "photo",
+      "text": "Hóa đơn\n0354 508 381\n\nQuảng trường Nguyễn Tất Thành\n\nKem Cheese",
+      "url": "https://placehold.co/400x300.png?text=H%C3%B3a%20%C4%91%C6%A1n%0A0354%20508%20381%0A%0AQu%E1%BA%A3ng%20tr%C6%B0%E1%BB%9Dng%20Nguy%E1%BB%85n%20T%E1%BA%A5t%20Th%C3%A0nh%0A%0AKem%20Cheese",
+      "title": "Đơn hàng bằng ảnh"
+    },
+    "queuedAt": 1784521396026,
+    "attempts": 0
+  },
+  {
+    "path": "/worker/messages",
+    "body": {
+      "msg_id": "msg_1784521400326",
+      "type": "photo",
+      "text": "37 Trần Phú\n\nLatte\n0849824091",
+      "url": "https://placehold.co/400x300.png?text=37%20Tr%E1%BA%A7n%20Ph%C3%BA%0A%0ALatte%0A0849824091",
+      "title": "Đơn hàng bằng ảnh"
+    },
+    "queuedAt": 1784521460417,
+    "attempts": 0
+  }
+]

@@ -1,7 +1,7 @@
 import { getApi } from "./session.js";
 import { initDirectory, attach } from "./watcher.js";
 import { registerTargets } from "./targets.js";
-import { ping } from "./api.js";
+import { ping, flushQueue } from "./api/index.js";
 import { initSocket } from "./socket.js";
 
 (async () => {
@@ -17,5 +17,10 @@ import { initSocket } from "./socket.js";
     api.listener.start();
     await ping();               // đánh thức server
 
+    // mỗi 2 phút thử flush 1 lần
+    const timeTryFlush = 2 * 60 * 1000;
+    setInterval(flushQueue, timeTryFlush);
+
     console.log("Đang lắng nghe...");
-})();
+
+})();

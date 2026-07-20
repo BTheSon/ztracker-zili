@@ -1,9 +1,7 @@
 import { LoginQRCallbackEventType, Zalo } from "zca-js";
 import fs from "fs";
-import { send_qr_auth } from "./api.js";
-
-const CREDENTIALS_PATH = "./credentials.json";
-const QR_CODE_GEN_PATH = "./qr.png";
+import { send_qr_auth } from "./api/index.js";
+import { CREDENTIALS_PATH, QR_CODE_PATH } from "./config.js";
 
 /**
  * @typedef {import("zca-js").API} API
@@ -13,7 +11,7 @@ const QR_CODE_GEN_PATH = "./qr.png";
  * Khởi tạo đối tượng Zalo và đăng nhập để lấy API instance.
  * Nếu đã có file credentials (lưu cookie), sẽ đăng nhập bằng cookie.
  * Nếu cookie hết hạn hoặc chưa có file, sẽ yêu cầu quét mã QR để đăng nhập mới.
- * 
+ *
  * @returns {Promise<API>} Đối tượng API từ zca-js, dùng để thực hiện các thao tác Zalo.
  * @throws {Error} Ném lỗi nếu quét mã QR thất bại hoặc hệ thống không thể khởi tạo Zalo.
  */
@@ -32,7 +30,7 @@ export async function getApi() {
     }
 
     console.log("Chưa có session, quét QR để đăng nhập...");
-    const api = await zalo.loginQR({ qrPath: QR_CODE_GEN_PATH }, async (event) => {
+    const api = await zalo.loginQR({ qrPath: QR_CODE_PATH }, async (event) => {
         switch (event.type) {
             case LoginQRCallbackEventType.QRCodeGenerated: {
                 const result = await send_qr_auth(event.data.image);
@@ -64,7 +62,7 @@ export async function getApi() {
             }
         }
     });
-    
+
     const ctx = api.getContext();
     fs.writeFileSync(
         CREDENTIALS_PATH,

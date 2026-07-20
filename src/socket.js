@@ -1,7 +1,5 @@
 import { io } from "socket.io-client";
-
-// const BASE_URL = "http://localhost:3000";
-const BASE_URL = "https://ztracker-back.onrender.com";
+import { BASE_URL } from "./config.js";
 
 export const socket = io(BASE_URL, {
     autoConnect: false,
