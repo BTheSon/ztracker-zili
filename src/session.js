@@ -1,5 +1,6 @@
 import { LoginQRCallbackEventType, Zalo } from "zca-js";
 import fs from "fs";
+import path from "path";
 import { send_qr_auth } from "./api/index.js";
 import { CREDENTIALS_PATH, QR_CODE_PATH } from "./config.js";
 
@@ -64,6 +65,8 @@ export async function getApi() {
     });
 
     const ctx = api.getContext();
+    const dir = path.dirname(CREDENTIALS_PATH);
+    fs.mkdirSync(dir, {recursive: true})
     fs.writeFileSync(
         CREDENTIALS_PATH,
         JSON.stringify({ cookie: ctx.cookie.toJSON(), imei: ctx.imei, userAgent: ctx.userAgent }, null, 2),
