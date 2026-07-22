@@ -57,7 +57,7 @@ export const send_msg = async (msg_id, formatted) => {
             body: JSON.stringify(body),
         });
         const json = await res.json();
-        console.log("[GEMINI EXTRACTION]", json?.data?.geminiExtraction);
+        console.log("[SERVER MESSAGE]", json?.msg);
         return { success: true };
     } catch (err) {
         console.error("[SEND_MSG FAILED - đã retry hết]", msg_id, err);
