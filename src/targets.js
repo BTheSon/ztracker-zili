@@ -11,34 +11,34 @@ import { buildDisplayText } from "./utils/display.js";
  */
 export function registerTargets() {
 
-    watch("[BoBo] SHIP BOBO", {
+    watch("*", {
         onMessage: (msg) => {
             const formatted = messageFormatter.format(msg.data);
-            console.log(`[MSG] ${msg.data.dName}: ${buildDisplayText(formatted)}`);
+            console.log(`[MSG_ALL] ${msg.data.dName}: ${buildDisplayText(formatted)}`);
         },
         onDelete: (undo) => {
-            console.log(`[UNDO] Tin nhắn ${undo.data.msgId} vừa bị thu hồi`);
+            console.log(`[UNDO_ALL] Tin nhắn ${undo.data.msgId} vừa bị thu hồi`);
         },
         onReaction: (r) => {
-            console.log(`[REACT] ${r.data.dName ?? r.data.uidFrom}: ${r.data.content.rIcon}`);
+            console.log(`[REACT_ALL] ${r.data.dName ?? r.data.uidFrom}: ${r.data.content.rIcon}`);
         },
     });
 
-    watch("*", {
+    watch("[BoBo] SHIP BOBO", {
         onMessage: async (msg) => {
             const formatted = messageFormatter.format(msg.data);
             const display = buildDisplayText(formatted);
-            console.log(`[TẤT CẢ MSG] ${msg.data.dName || msg.data.uidFrom}: ${display}`);
+            console.log(`[BOBO] ${msg.data.dName || msg.data.uidFrom}: ${display}`);
 
             if (formatted.type === "photo" || formatted.type === "text") {
                 await send_msg(msg.data.msgId, formatted);
             }
         },
         onDelete: (undo) => {
-            console.log(`[TẤT CẢ UNDO] Tin nhắn ${undo.data.msgId} vừa bị thu hồi`);
+            console.log(`[BOBO] Tin nhắn ${undo.data.msgId} vừa bị thu hồi`);
         },
         onReaction: (r) => {
-            console.log(`[TẤT CẢ REACT] ${r.data.dName ?? r.data.uidFrom}: ${r.data.content.rIcon}`);
+            console.log(`[BOBO] ${r.data.dName ?? r.data.uidFrom}: ${r.data.content.rIcon}`);
         },
     });
 }
