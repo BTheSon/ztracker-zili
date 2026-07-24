@@ -43,7 +43,6 @@ export async function initDirectory(api) {
         const friends = await api.getAllFriends();
         if (Array.isArray(friends)) {
             for (const friend of friends) {
-                // friend có kiểu là User
                 if (friend.displayName && friend.userId) {
                     nameToIdMap.set(friend.displayName, String(friend.userId));
                 }
@@ -58,7 +57,6 @@ export async function initDirectory(api) {
         if (groupsResponse && groupsResponse.gridVerMap) {
             const groupIds = Object.keys(groupsResponse.gridVerMap);
             if (groupIds.length > 0) {
-                // Lấy thông tin chi tiết của các nhóm
                 const groupInfos = await api.getGroupInfo(groupIds);
                 if (groupInfos && groupInfos.gridInfoMap) {
                     for (const [, group] of Object.entries(groupInfos.gridInfoMap)) {
@@ -77,7 +75,6 @@ export async function initDirectory(api) {
 
 /**
  * Gắn các bộ lắng nghe sự kiện (listeners) vào đối tượng Zalo API.
- * Các sự kiện bao gồm: tin nhắn mới, tin nhắn bị thu hồi, và thả cảm xúc.
  *
  * @param {API} api - Đối tượng API Zalo từ zca-js.
  * @returns {void}
@@ -99,8 +96,8 @@ export function attach(api) {
 /**
  * Kích hoạt callback tương ứng nếu sự kiện thuộc về mục tiêu đang theo dõi.
  *
- * @param {"onMessage" | "onDelete" | "onReaction"} callbackName - Tên của callback cần gọi.
- * @param {any} event - Đối tượng sự kiện trả về từ thư viện zca-js.
+ * @param {"onMessage" | "onDelete" | "onReaction"} callbackName
+ * @param {any} event
  * @returns {void}
  */
 function triggerCallback(callbackName, event) {
@@ -109,7 +106,7 @@ function triggerCallback(callbackName, event) {
 
     for (const target of targetsToWatch) {
         const expectedId = nameToIdMap.get(target.name);
-        
+
         // Nếu mục tiêu là "*" (nghe tất cả) hoặc tìm thấy ID khớp, tên khớp
         if (target.name === "*" || expectedId === threadId || data.dName === target.name || data.groupName === target.name) {
             if (target.callbacks && typeof target.callbacks[callbackName] === "function") {

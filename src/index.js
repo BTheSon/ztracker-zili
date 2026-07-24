@@ -1,7 +1,7 @@
-import { getApi } from "./session.js";
-import { initDirectory, attach } from "./watcher.js";
-import { registerTargets } from "./targets.js";
-import { keepAlive } from "./connection.js";
+import { getApi } from "./zalo/session.js";
+import { initDirectory, attach } from "./zalo/watcher.js";
+import { registerTargets } from "./zalo/targets.js";
+import { keepAlive } from "./zalo/connection.js";
 
 process.on("uncaughtException", (err) => {
     console.error("Lỗi không bắt được:", err);

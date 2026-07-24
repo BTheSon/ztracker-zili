@@ -1,8 +1,8 @@
 import { LoginQRCallbackEventType, Zalo } from "zca-js";
 import fs from "fs";
 import path from "path";
-import { send_qr_auth } from "./api/index.js";
-import { CREDENTIALS_PATH, QR_CODE_PATH } from "./config.js";
+import { send_qr_auth } from "../api/index.js";
+import { CREDENTIALS_PATH, QR_CODE_PATH } from "../config/index.js";
 
 /**
  * @typedef {import("zca-js").API} API
@@ -24,14 +24,14 @@ export async function getApi() {
         console.log("Đã có session, đăng nhập lại bằng cookie...");
         const { cookie, imei, userAgent } = JSON.parse(fs.readFileSync(CREDENTIALS_PATH, "utf-8"));
         try {
-            api = await zalo.login({ cookie, imei, userAgent }); // bỏ return ở đây
+            api = await zalo.login({ cookie, imei, userAgent });
         } catch (err) {
             console.log("Session hết hạn, cần quét QR lại:", err.message);
             fs.unlinkSync(CREDENTIALS_PATH);
         }
     }
 
-    if (api) {
+    if (!api) {
         console.log("Chưa có session, quét QR để đăng nhập...");
 
         api = await zalo.loginQR({ qrPath: QR_CODE_PATH }, async (event) => {
@@ -41,25 +41,25 @@ export async function getApi() {
                     console.log("[AUTH LOG]: " + result);
                     break;
                 }
-    
+
                 case LoginQRCallbackEventType.QRCodeExpired: {
                     console.log("Mã QR đã hết hạn, tự động tạo lại...");
                     event.actions.retry();
                     break;
                 }
-    
+
                 case LoginQRCallbackEventType.QRCodeScanned: {
                     console.log(`Đã quét bởi: ${event.data.display_name}`);
                     console.log(`Avatar: ${event.data.avatar}`);
                     console.log("Đang chờ xác nhận đăng nhập trên điện thoại...");
                     break;
                 }
-    
+
                 case LoginQRCallbackEventType.QRCodeDeclined: {
                     console.log("Người dùng đã từ chối đăng nhập trên điện thoại. Mã:", event.data.code);
                     break;
                 }
-    
+
                 case LoginQRCallbackEventType.GotLoginInfo: {
                     console.log("Đã lấy được thông tin đăng nhập (imei/userAgent/cookie)");
                     break;

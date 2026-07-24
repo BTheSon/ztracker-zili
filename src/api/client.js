@@ -1,5 +1,5 @@
 // @ts-check
-import { BASE_URL, TIMEOUT_MS, MAX_RETRIES } from "../config.js";
+import { BASE_URL, TIMEOUT_MS, MAX_RETRIES } from "../config/index.js";
 
 /** @param {number} ms @returns {Promise<void>} */
 function sleep(ms) { return new Promise(r => setTimeout(r, ms)); }

@@ -1,4 +1,4 @@
-// src/mockServer.js — chạy: node src/mockServer.js
+// src/dev/mockServer.js — chạy: node src/dev/mockServer.js
 import http from "http";
 
 let requestCount = 0;
@@ -11,7 +11,7 @@ http.createServer((req, res) => {
     req.on("end", () => {
         console.log(`[MOCK] Request #${requestCount}: ${req.method} ${req.url}`);
 
-        // Kịch bản: cứ mỗi 3 request thì giả lập "cold start" — treo lâu rồi mới trả 502
+        // Kịch bản: cứ mỗi 2 request thì giả lập "cold start" — treo lâu rồi mới trả 502
         if (requestCount % 2 === 0) {
             console.log("[MOCK] Giả lập cold-start: treo 60s rồi trả 502...");
             setTimeout(() => {

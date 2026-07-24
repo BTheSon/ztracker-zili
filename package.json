@@ -1,18 +1,17 @@
 {
-  "name": "zili",
-  "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
-  "scripts": {
-    "start": "node src/index.js",
-    "test": "node src/test.js"
-  },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
-  "type": "module",
-  "dependencies": {
-    "socket.io-client": "^4.8.3",
-    "zca-js": "^2.1.2"
-  }
+    "name": "zili",
+    "version": "1.0.0",
+    "description": "",
+    "main": "index.js",
+    "scripts": {
+        "start": "node src/index.js",
+        "test": "node src/dev/manualTest.js"
+    },
+    "keywords": [],
+    "author": "",
+    "license": "ISC",
+    "type": "module",
+    "dependencies": {
+        "zca-js": "^2.1.2"
+    }
 }

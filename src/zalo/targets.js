@@ -1,9 +1,9 @@
 // @ts-check
 
 import { watch } from "./watcher.js";
-import messageFormatter from "./messageFormatter.js";
-import { send_msg } from "./api/index.js";
-import { buildDisplayText } from "./utils/display.js";
+import messageFormatter from "../messaging/formatter.js";
+import { send_msg } from "../api/index.js";
+import { buildDisplayText } from "../messaging/display.js";
 
 /**
  * Đăng ký các mục tiêu (người dùng hoặc nhóm) mà bot cần theo dõi.

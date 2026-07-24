@@ -1,6 +1,6 @@
 // @ts-check
 import fs from "fs";
-import { QUEUE_PATH } from "../config.js";
+import { QUEUE_PATH } from "../config/index.js";
 import { requestWithRetry } from "./client.js";
 
 /**

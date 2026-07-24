@@ -110,12 +110,11 @@ function randomPhone() {
             return `${number.slice(0, 4)}-${number.slice(4, 7)}-${number.slice(7)}`;
 
         default:
-            return `(+84) ${number.substring(1,4)} ${number.substring(4,7)} ${number.substring(7)}`;
+            return `(+84) ${number.substring(1, 4)} ${number.substring(4, 7)} ${number.substring(7)}`;
     }
 }
 
 function randomAddress() {
-
     if (chance(0.35))
         return random(places);
 
@@ -133,7 +132,6 @@ function randomAddress() {
 }
 
 function buildDrinkSample() {
-
     const fields = [
         random(drinks),
         randomAddress(),
@@ -155,9 +153,7 @@ function buildDrinkSample() {
         ]));
 
     fields.forEach(f => {
-
         lines.push(f);
-
         if (chance(0.25))
             lines.push("");
     });
@@ -166,13 +162,9 @@ function buildDrinkSample() {
 }
 
 export const genRandomPicUrl = () => {
-    let urls = "";
     const text = chance(0.25)
         ? random(unrelated)
         : buildDrinkSample();
-    
-    
-    urls = `https://placehold.co/400x300.png?text=${encodeURIComponent(text)}`
-    
-    return urls
-}
+
+    return `https://placehold.co/400x300.png?text=${encodeURIComponent(text)}`;
+};

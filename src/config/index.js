@@ -5,13 +5,13 @@ import { fileURLToPath } from "url";
 export const BASE_URL = "https://ztracker-back.onrender.com";
 
 /** Đường dẫn tuyệt đối đến file lưu session đăng nhập */
-export const CREDENTIALS_PATH = fileURLToPath(new URL("../local-data/credentials.json", import.meta.url));
+export const CREDENTIALS_PATH = fileURLToPath(new URL("../../local-data/credentials.json", import.meta.url));
 
 /** Đường dẫn tuyệt đối đến file ảnh QR đăng nhập */
-export const QR_CODE_PATH = fileURLToPath(new URL("../local-data/qr.png", import.meta.url));
+export const QR_CODE_PATH = fileURLToPath(new URL("../../local-data/qr.png", import.meta.url));
 
 /** Đường dẫn tuyệt đối đến file hàng đợi gửi lại */
-export const QUEUE_PATH = fileURLToPath(new URL("../local-data/failed_queue.json", import.meta.url));
+export const QUEUE_PATH = fileURLToPath(new URL("../../local-data/failed_queue.json", import.meta.url));
 
 /** Số lần retry tối đa khi gọi API thất bại */
 export const MAX_RETRIES = 4;

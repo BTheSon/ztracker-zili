@@ -1,8 +1,8 @@
 //@ts-check
-import { send_msg } from "./api/index.js";
-import messageFormatter from "./messageFormatter.js";
+import { send_msg } from "../api/index.js";
+import messageFormatter from "../messaging/formatter.js";
 import { genRandomPicUrl } from "./randomPic.js";
-import { buildDisplayText } from "./utils/display.js";
+import { buildDisplayText } from "../messaging/display.js";
 
 // Hàm sinh cấu trúc dữ liệu mô phỏng kết quả sau khi format
 function generateMockFormattedData() {
